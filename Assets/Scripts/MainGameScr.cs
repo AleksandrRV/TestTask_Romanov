@@ -25,7 +25,7 @@ public class MainGameScr : MonoBehaviour
 		set 
 		{
 			V_level = value; //Присваиваем новое значение уровня
-
+			
 			//Меняем скорость появления шариков в зависимости от уровня
 			if (V_level == 1) V_ball_timer = 3f;
 			else if (V_level == 2) V_ball_timer = 2.66f;
@@ -33,7 +33,7 @@ public class MainGameScr : MonoBehaviour
 			else if (V_level == 4) V_ball_timer = 2f;
 			else V_ball_timer = 2f - (float)(V_level-4)*0.1f;
 			if (V_ball_timer < 0.5f) V_ball_timer = 0.5f;
-
+			
 			//Выводим текущий уровень посредством двух объектов на сцене
 			Obj_level.GetComponent<UILabel> ().text = V_level.ToString();
 			Obj_clevel.GetComponent<UILabel> ().text = V_level.ToString();
@@ -42,17 +42,14 @@ public class MainGameScr : MonoBehaviour
 	
 	void Awake () 
 	{
-		if (Network.isServer) 
-		{
-			//Инициализируем начальные параметры игры
-			V_ball_time = Time.time;
-			V_level_time = Time.time;
-			V_level_sv = 1;
+		//Инициализируем начальные параметры игры
+		V_ball_time = Time.time;
+		V_level_time = Time.time;
+		V_level_sv = 1;
 		
-			PlayerPrefs.SetInt ("Score", 0);
-		}
+		PlayerPrefs.SetInt ("Score", 0);
 	}
-
+	
 	void Update () 
 	{
 		if (Network.isServer) 
@@ -63,20 +60,20 @@ public class MainGameScr : MonoBehaviour
 				V_ball_time += V_ball_timer; 
 				CreateBall();
 			}
-
+			
 			//Определяем время прошедшее с начала последнего уровня и при необходимости переходим к следующему уровню
 			if (Time.time - V_level_time >= 30f)
 			{
 				V_level_time += 30f;
 				V_level_sv = V_level+1;
 			}
-
+			
 			//Выводим время до начала следующего уровня посредством двух объектов на сцене
 			Obj_timer.GetComponent<UILabel> ().text = (1+(int)(30f - (Time.time - V_level_time))).ToString();
 			Obj_ctimer.GetComponent<UISprite> ().fillAmount = (Time.time - V_level_time)/(float)30f;
 		}
 	}
-
+	
 	//Метод для создания шариков
 	void CreateBall()
 	{
@@ -88,7 +85,7 @@ public class MainGameScr : MonoBehaviour
 		Clone.transform.localScale = new Vector3(1f, 1f, 1f);
 		Clone.GetComponent<BallScr> ().Init (V_level);
 	}
-
+	
 	//Метод для создания шариков-двойников
 	public void CreateBallFake(Vector3 Pos, float V_sp_y) 
 	{

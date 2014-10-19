@@ -32,22 +32,22 @@ public class LineScr : MonoBehaviour
 			{
 				if (Input.GetKey(KeyCode.LeftArrow))
 				{
-					if (V_speed_x > 0f) V_speed_x *= 0.8f;
-					V_speed_x -= 0.5f;
-					if (V_speed_x > 5f) V_speed_x = 5f;
+					if (V_speed_x > 0f) V_speed_x *= 0.5f;
+					V_speed_x -= 3f;
 				}
 				else
 				{
-					if (V_speed_x < 0f) V_speed_x *= 0.8f;
-					V_speed_x += 0.5f;
-					if (V_speed_x < -5f) V_speed_x = -5f;
+					if (V_speed_x < 0f) V_speed_x *= 0.5f;
+					V_speed_x += 3f;
 				}
 			}
 			else
 			{
-				V_speed_x *= 0.95f;
+				V_speed_x *= 0.9f;
 				if (Mathf.Abs(V_speed_x) < 0.01f) V_speed_x = 0f;
 			}
+			if (V_speed_x > 25f) V_speed_x = 25f;
+			else if (V_speed_x < -25f) V_speed_x = -25f;
 			
 			//Смещение
 			float V_new_pos_x = transform.localPosition.x;
